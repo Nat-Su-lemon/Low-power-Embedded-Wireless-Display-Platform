@@ -17,7 +17,7 @@ A battery-powered wireless display platform that shows WiFi credentials and envi
 - **Wireless connectivity** — WiFi and BLE handled by an external wireless subsystem (ESP32-C3 / u-blox), architecturally separated from the host MCU so radios can be independently power-gated.
 - **Environmental sensing** — BME680/688 for temperature and humidity, plus an OPT4001 ambient light sensor for brightness sensing and wake-up.
 - **Power system** — LiPo battery, USB charging (BQ25185), energy-harvesting front end (BQ25570 with MPPT), an ultra-low-IQ TPS63900 buck-boost regulator, and a MAX17048 fuel gauge for state-of-charge tracking.
-- **Solar-assisted charging** — Anysolar monocrystalline cell chosen after empirical testing; viable indoors as a battery supplement but characterized as insufficient for primary power under office lighting.
+- **Solar-assisted charging** — Anysolar monocrystalline cell chosen after testing; viable indoors as a battery supplement and outdoors as primary power, but characterized as insufficient for primary power under office lighting.
 - **Verified battery life** — Power-budgeted to roughly 19 to 25 mAh per week depending on sensor duty cycle and wireless usage, comfortably meeting the one-month target.
 
 ## Design Highlights
