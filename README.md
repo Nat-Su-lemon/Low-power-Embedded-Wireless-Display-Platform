@@ -2,6 +2,14 @@
 
 A battery-powered wireless display platform that shows WiFi credentials and environmental information, engineered around aggressive low-power design with optional solar energy harvesting. Built to run for over a month on a single charge while remaining readable from several feet away, with headroom for future environmental monitoring and network integration.
 
+## Photos
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9530.jpg" height="250">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9534.jpg" height="250">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9658.jpg" height="250">
+</p>
+
 ## Hardware Features
 
 - **Ultra-low-power MCU** — STM32U585CIU6Q (U5 family) with 2 MB Flash and an efficient SMPS-based core supply, selected for best-in-class low-power operation and strong tooling support.
@@ -27,14 +35,6 @@ A battery-powered wireless display platform that shows WiFi credentials and envi
 
 **Firmware power discipline.** Explained more below, but energy was minimized in software as well as hardware: high-speed SPI along with DMA/interrupt-driven transfers to shorten active windows, immediate return to sleep after each peripheral transaction, and RTC-based periodic wake-ups.
 
-## Hardware Photos
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9530.jpg" height="250">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9534.jpg" height="250">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9658.jpg" height="250">
-</p>
-
 ## Hardware
 
 <p align="center">
@@ -59,6 +59,18 @@ A battery-powered wireless display platform that shows WiFi credentials and envi
 📄 **[Download the full schematic PDF](https://github.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/blob/main/assets/DINO.pdf)**
 
 # Firmware Overview
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/TLD.png" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/mainloop.png" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/modulehieracrhyu.png" width="100%">
+</p>
 
 This firmware is an embedded test platform for a low-power STM32U585-based device with environmental sensing, battery monitoring, e-paper display output, SD card logging, ESP32 WiFi coordination, USB serial debug access, and firmware update support through the STM32 ROM DFU bootloader.
 
