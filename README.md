@@ -1,6 +1,39 @@
-# Low-Power Embedded Wireless Display Platform
+# Low-Power Embedded Wireless Display Platform (DINO)
 
-A low-power embedded system for driving an E-paper display, environmental sensors/dlogging, built around an energy-efficient STM32U5 microcontroller and ESP32 IoT.
+A battery-powered wireless display platform that shows WiFi credentials and environmental information, engineered around aggressive low-power design with optional solar energy harvesting. Built to run for over a month on a single charge while remaining readable from several feet away, with headroom for future environmental monitoring and network integration.
+
+## Hardware Features
+
+- **Ultra-low-power MCU** — STM32U585CIU6Q (U5 family) with 2 MB Flash and an efficient SMPS-based core supply, selected for best-in-class low-power operation and strong tooling support.
+- **E-Ink display** — 4.2-inch panel with near-zero static power draw, high readability from 3 to 4 feet, and suitability for infrequent updates; ideal for a mostly-static credential display.
+- **Wireless connectivity** — WiFi and BLE handled by an external wireless subsystem (ESP32-C3 / u-blox), architecturally separated from the host MCU so radios can be independently power-gated.
+- **Environmental sensing** — BME680/688 for temperature and humidity, plus an OPT4001 ambient light sensor for brightness sensing and wake-up.
+- **Power system** — LiPo battery, USB charging (BQ25185), energy-harvesting front end (BQ25570 with MPPT), an ultra-low-IQ TPS63900 buck-boost regulator, and a MAX17048 fuel gauge for state-of-charge tracking.
+- **Solar-assisted charging** — Anysolar monocrystalline cell chosen after empirical testing; viable indoors as a battery supplement but characterized as insufficient for primary power under office lighting.
+- **Verified battery life** — Power-budgeted to roughly 19 to 25 mAh per week depending on sensor duty cycle and wireless usage, comfortably meeting the one-month target.
+
+## Design Highlights
+
+**Power-first architecture.** Every major component was chosen to minimize quiescent current, since standby draw dominates the energy budget for a display that updates infrequently. A full power-consumption model was built to budget each system state (standby, screen refresh, WiFi burst, BLE burst) and validate the month-plus battery target before committing to hardware. Standby current sits around 100 μA, with screen updates and wifi activity treated as rare, high-current events amortized across the week.
+
+**Deliberate component trade-offs.** Selection wasn't defaulting to the popular part. The ESP32, STM32, Nordic, and u-blox families were each evaluated against low-power capability, documentation, ecosystem, and industry relevance, landing on an STM32U5 host with an external wifi module for the best mix of efficiency and flexibility. On the sensor side, the lower-power BME280 was weighed against the BME680/688, and three solar charger topologies (BQ25570, BQ24074, LTC4162-L) were compared on MPPT support and regulation complexity.
+
+**Empirical solar feasibility study.** Rather than assuming solar would work, harvesting was tested directly: roughly 0.8 J accumulated over 3.5 days under indoor lighting, averaging about 2.6 μW. That data drove the honest conclusion that indoor solar supplements but can't sustain the system. However, direct sunlight proved feasible with an estimated 1 mW of power generation at least. 
+
+**Hardware bring-up and debugging.** The board went through a full validation campaign: continuity and polarity checks, short and load-switch testing, power integrity, per-peripheral validation (UART/SPI/I2C), USB charging, reverse-polarity and overcurrent behavior, and a mechanical drop test. Two notable bugs were root-caused and fixed:
+  - A display drawing ~450 mA instead of idling was traced to swapped PREVGL/PREVGH connections, requiring trace cuts and rework.
+  - Leakage through the disabled display rail was eliminated by reconfiguring externally pulled-up GPIOs (RST, BUSY) as open-drain and tying control signals to the E-Ink rail.
+  - A USB charger that wouldn't charge was traced to an enable pin left mapped to JTDI in the pin configuration, fixed by reassigning it as a default-low GPIO.
+
+**Firmware power discipline.** Explained more below, but energy was minimized in software as well as hardware: high-speed SPI along with DMA/interrupt-driven transfers to shorten active windows, immediate return to sleep after each peripheral transaction, and RTC-based periodic wake-ups.
+
+## Hardware Photos
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9530.jpg" height="250">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9534.jpg" height="250">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/IMG_9658.jpg" height="250">
+</p>
 
 ## Hardware
 
@@ -23,7 +56,8 @@ A low-power embedded system for driving an E-paper display, environmental sensor
   <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/POWER.png" width="100%">
 </p>
 
-📄 **[View the full schematic PDF](https://github.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/blob/main/assets/DINO.pdf)**
+📄 **[Download the full schematic PDF](https://github.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/blob/main/assets/DINO.pdf)**
+
 # Firmware Overview
 
 This firmware is an embedded test platform for a low-power STM32U585-based device with environmental sensing, battery monitoring, e-paper display output, SD card logging, ESP32 WiFi coordination, USB serial debug access, and firmware update support through the STM32 ROM DFU bootloader.
