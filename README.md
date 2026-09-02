@@ -1,4 +1,4 @@
-# Low-Power Embedded Wireless Display Platform (DINO)
+# Low-Power Embedded Wireless Display Platform
 
 A battery-powered wireless display platform that shows WiFi credentials and environmental information, engineered around aggressive low-power design with optional solar energy harvesting. Built to run for over a month on a single charge while remaining readable from several feet away, with headroom for future environmental monitoring and network integration.
 
