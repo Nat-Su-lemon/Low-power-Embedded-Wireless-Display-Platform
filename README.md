@@ -22,18 +22,18 @@ A battery-powered wireless display platform that shows WiFi credentials and envi
 
 ## Design Highlights
 
-**Power-first architecture.** Every major component was chosen to minimize quiescent current, since standby draw dominates the energy budget for a display that updates infrequently. A full power-consumption model was built to budget each system state (standby, screen refresh, WiFi burst, BLE burst) and validate the month-plus battery target before committing to hardware. Standby current sits around 100 μA, with screen updates and wifi activity treated as rare, high-current events amortized across the week.
+**Power architecture.** Every major component was chosen to minimize quiescent current, since standby draw dominates the energy budget for a display that updates infrequently. A full power-consumption model was built to budget each system state (standby, screen refresh, WiFi burst, BLE burst) and validate the month-plus battery target before committing to hardware. Standby current sits around 100 μA, with screen updates and wifi activity treated as rare, high-current events amortized across the week.
 
-**Deliberate component trade-offs.** Selection wasn't defaulting to the popular part. The ESP32, STM32, Nordic, and u-blox families were each evaluated against low-power capability, documentation, ecosystem, and industry relevance, landing on an STM32U5 host with an external wifi module for the best mix of efficiency and flexibility. On the sensor side, the lower-power BME280 was weighed against the BME680/688, and three solar charger topologies (BQ25570, BQ24074, LTC4162-L) were compared on MPPT support and regulation complexity.
+**Component trade-offs.** Selection wasn't defaulting to the popular part. The ESP32, STM32, Nordic, and u-blox families were each evaluated against low-power capability, documentation, ecosystem, and industry relevance, landing on an STM32U5 host with an external wifi module for the best mix of efficiency and flexibility. On the sensor side, the lower-power BME280 was weighed against the BME680/688, and three solar charger topologies (BQ25570, BQ24074, LTC4162-L) were compared on MPPT support and regulation complexity.
 
-**Empirical solar feasibility study.** Rather than assuming solar would work, harvesting was tested directly: roughly 0.8 J accumulated over 3.5 days under indoor lighting, averaging about 2.6 μW. That data drove the honest conclusion that indoor solar supplements but can't sustain the system. However, direct sunlight proved feasible with an estimated 1 mW of power generation at least. 
+**Solar feasibility study.** Rather than assuming solar would work, harvesting was tested directly: roughly 0.8 J accumulated over 3.5 days under indoor lighting, averaging about 2.6 μW. That data drove the honest conclusion that indoor solar supplements but can't sustain the system. However, direct sunlight proved feasible with an estimated 1 mW of power generation at least. 
 
 **Hardware bring-up and debugging.** The board went through a full validation campaign: continuity and polarity checks, short and load-switch testing, power integrity, per-peripheral validation (UART/SPI/I2C), USB charging, reverse-polarity and overcurrent behavior, and a mechanical drop test. Two notable bugs were root-caused and fixed:
   - A display drawing ~450 mA instead of idling was traced to swapped PREVGL/PREVGH connections, requiring trace cuts and rework.
   - Leakage through the disabled display rail was eliminated by reconfiguring externally pulled-up GPIOs (RST, BUSY) as open-drain and tying control signals to the E-Ink rail.
   - A USB charger that wouldn't charge was traced to an enable pin left mapped to JTDI in the pin configuration, fixed by reassigning it as a default-low GPIO.
 
-**Firmware power discipline.** Explained more below, but energy was minimized in software as well as hardware: high-speed SPI along with DMA/interrupt-driven transfers to shorten active windows, immediate return to sleep after each peripheral transaction, and RTC-based periodic wake-ups.
+**Firmware power optimization.** Explained more below, but energy was minimized in software as well as hardware: high-speed SPI along with DMA/interrupt-driven transfers to shorten active windows, immediate return to sleep after each peripheral transaction, and RTC-based periodic wake-ups.
 
 ## Hardware
 
