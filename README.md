@@ -5,24 +5,23 @@ A low-power embedded system for driving an E-paper display, environmental sensor
 ## Hardware
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/Screenshot%202026-09-02%20015859.png" width="48%">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/Screenshot%202026-09-02%20015914.png" width="48%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/Screenshot%202026-09-02%20015859.png" height="250">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/Screenshot%202026-09-02%20015914.png" height="250">
 </p>
 
-## Documentation
+## Schematics
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/DINO_page-0001.jpg" width="100%">
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/DINO_page-0002.jpg" width="100%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/MAIN.png" width="100%">
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/DINO_page-0003.jpg" width="100%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/PERIPHERALS.png" width="100%">
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/POWER.png" width="100%">
+</p>
 # Firmware Overview
 
 This firmware is an embedded test platform for a low-power STM32U585-based device with environmental sensing, battery monitoring, e-paper display output, SD card logging, ESP32 WiFi coordination, USB serial debug access, and firmware update support through the STM32 ROM DFU bootloader.
