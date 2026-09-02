@@ -58,18 +58,26 @@ A battery-powered wireless display platform that shows WiFi credentials and envi
 
 📄 **[Download the full schematic PDF](https://github.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/blob/main/assets/DINO.pdf)**
 
-# Firmware Overview
+## Firmware
+
+The firmware is organized into a layered architecture that cleanly separates application logic, device drivers, and hardware abstraction, with a run-to-sleep main loop that keeps the system in its lowest-power state whenever possible.
+
+**External interfaces.** Top-level view of how the STM32U585 host connects to the E-Ink display, sensors (BME680/688, OPT4001, MAX17048G fuel gauge), microSD card, and the ESP32-C3 wireless coprocessor across I2C, SPI, and UART.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/TLD.png" width="100%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/TLD.png" width="90%">
 </p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/mainloop.png" width="100%">
-</p>
+**Runtime flow.** The main loop wakes on RTC or button interrupt, services sensors, conditionally logs to SD and updates over WiFi, refreshes the display, then powers down unused peripherals and returns to sleep. Screen and WiFi updates gate their own power rails and wait for boot-up before proceeding.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/modulehieracrhyu.png" width="100%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/mainloop.png" width="70%">
+</p>
+
+**Module hierarchy.** Application-level control (main loop, command parsing, display and SD interfaces) sits above per-peripheral device drivers, which in turn ride on UART/I2C/SPI BSP layers and the HAL. A shared `Config.h` parameterizes the whole stack.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/modulehieracrhyu.png" width="90%">
 </p>
 
 This firmware is an embedded test platform for a low-power STM32U585-based device with environmental sensing, battery monitoring, e-paper display output, SD card logging, ESP32 WiFi coordination, USB serial debug access, and firmware update support through the STM32 ROM DFU bootloader.
