@@ -45,15 +45,15 @@ A battery-powered wireless display platform that shows WiFi credentials and envi
 ## Schematics
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/MAIN.png" width="100%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/MAIN.png" width="75%">
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/PERIPHERALS.png" width="100%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/PERIPHERALS.png" width="75%">
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/POWER.png" width="100%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/POWER.png" width="75%">
 </p>
 
 📄 **[Download the full schematic PDF](https://github.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/blob/main/assets/DINO.pdf)**
@@ -65,20 +65,21 @@ The firmware is organized into a layered architecture that cleanly separates app
 **External interfaces.** Top-level view of how the STM32U585 host connects to the E-Ink display, sensors (BME680/688, OPT4001, MAX17048G fuel gauge), microSD card, and the ESP32-C3 wireless coprocessor across I2C, SPI, and UART.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/TLD.png?v=2" width="90%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/TLD.png?v=2" width="70%">
 </p>
 
 **Runtime flow.** The main loop wakes on RTC or button interrupt, services sensors, conditionally logs to SD and updates over WiFi, refreshes the display, then powers down unused peripherals and returns to sleep. Screen and WiFi updates gate their own power rails and wait for boot-up before proceeding.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/mainloop.png?v=2" width="70%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/mainloop.png?v=2" width="55%">
 </p>
 
-**Module hierarchy.** Application-level control (main loop, command parsing, display and SD interfaces) sits above per-peripheral device drivers, which in turn ride on UART/I2C/SPI BSP layers and the HAL. A shared `Config.h` parameterizes the whole stack.
+**Module hierarchy.** Application-level control (main loop, command parsing, display and SD interfaces) sits above per-peripheral device drivers, which in turn ride on UART/I2C/SPI BSP layers and the HAL. A shared \`Config.h\` parameterizes the whole stack.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/modulehieracrhyu.png?v=2" width="90%">
+  <img src="https://raw.githubusercontent.com/Nat-Su-lemon/Low-power-Embedded-Wireless-Display-Platform/main/assets/modulehieracrhyu.png?v=2" width="70%">
 </p>
+
 
 This firmware is an embedded test platform for a low-power STM32U585-based device with environmental sensing, battery monitoring, e-paper display output, SD card logging, ESP32 WiFi coordination, USB serial debug access, and firmware update support through the STM32 ROM DFU bootloader.
 
